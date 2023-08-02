@@ -525,7 +525,7 @@ def main():
     st.title('Long-form Article Generator with Semantic SEO Understanding')
     
     st.markdown('''
-    This app use advanced AI to create briefs and AI versions articles based on the topic you provide. 
+    This app uses advanced AI to create briefs and AI versions articles based on the topic you provide. 
 
     It also includes a Semantic SEO understanding. This means it takes into consideration the semantic context and relevance of your topic, based on current search engine results.
 
