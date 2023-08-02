@@ -522,7 +522,7 @@ def generate_article(topic, model="gpt-3.5-turbo", max_tokens_outline=2000, max_
 
 
 def main():
-    st.title('Long-form Article Generator with Semantic SEO Understanding')
+    st.title('Article and Brief Creator with Semantic SEO Understanding')
     
     st.markdown('''
     This app uses advanced AI to create briefs and AI versions articles based on the topic you provide. 
