@@ -525,11 +525,11 @@ def main():
     st.title('Long-form Article Generator with Semantic SEO Understanding')
     
     st.markdown('''
-    Welcome to the long-form article generator! This application leverages advanced AI to create comprehensive articles based on the topic you provide. 
+    This app use advanced AI to create briefs and AI versions articles based on the topic you provide. 
 
-    Not only does it generate articles, but it also includes a Semantic SEO understanding. This means it takes into consideration the semantic context and relevance of your topic, based on current search engine results.
+    It also includes a Semantic SEO understanding. This means it takes into consideration the semantic context and relevance of your topic, based on current search engine results.
 
-    Just input your topic below and let the AI do its magic!
+    Just input your topic below and get going.
     
     ** If you get an error, (sometimes OpenAI will be overloaded and not work), just press generate again and it should start where it left off.
     ''')
