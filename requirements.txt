@@ -1,0 +1,8 @@
+openai
+bs4
+nltk
+xlsxwriter
+newspaper3k
+streamlit
+apify-client
+transformers
