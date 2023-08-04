@@ -306,7 +306,7 @@ def generate_content(prompt, model="gpt-3.5-turbo", max_tokens=1000, temperature
     gpt_response = openai.ChatCompletion.create(
         model=model,
         messages=[
-            {"role": "system", "content": "Simulate an exceptionally talented journalist and editor. Given the following instructions, think step by step and produce the best possible output you can."},
+            {"role": "system", "content": "Simulate an exceptionally talented data led news writer. Given the following instructions, think step by step and produce the best possible news article you can."},
             {"role": "user", "content": prompt}],
         max_tokens=max_tokens,
         n=1,
@@ -333,7 +333,7 @@ def generate_content2(prompt, model="gpt-3.5-turbo", max_tokens=1000, temperatur
     gpt_response = openai.ChatCompletion.create(
         model=model,
         messages=[
-            {"role": "system", "content": "Simulate an exceptionally talented journalist and editor. Given the following instructions, think step by step and produce the best possible output you can. Return the results in Nicely formatted markdown please."},
+            {"role": "system", "content": "Simulate an exceptionally talented data led news writer. Given the following instructions, think step by step and produce the best possible output you can. Return the results in Nicely formatted markdown please."},
             {"role": "user", "content": prompt}],
         max_tokens=max_tokens,
         n=1,
@@ -361,7 +361,7 @@ def generate_content3(prompt, model="gpt-3.5-turbo", max_tokens=1000, temperatur
     gpt_response = openai.ChatCompletion.create(
         model=model,
         messages=[
-            {"role": "system", "content": "Simulate an exceptionally talented investigative journalist and researcher. Given the following text, please write a short paragraph providing only the most important facts and takeaways that can be used later when writing a full analysis or article."},
+            {"role": "system", "content": "Simulate an exceptionally talented data led news writer. Given the following text, please write a short paragraph providing only the most important facts and takeaways that can be used later when writing a 500 word article."},
             {"role": "user", "content": f"Use the following text to provide the readout: {prompt}"}],
         max_tokens=max_tokens,
         n=1,
@@ -383,8 +383,8 @@ def generate_semantic_improvements_guide(prompt,query, model="gpt-3.5-turbo", ma
         model=model,
         messages=[
             {"role": "system", "content": """You are an expert at Semantic SEO. In particular, you are superhuman at taking  a given NLTK report on a given text corpus compiled from the text of the linked pages returned for a google search.
-            and using it to build a comprehensive set of instructions for an article writer that can be used to inform someone writing a long-form article about a given topic so that they can best fully cover the semantic SEO as shown in NLTK data from the SERP corpus. 
-             Provide the result in well formatted markdown. The goal of this guide is to help the writer make sure that the content they are creating is as comprehensive to the semantic SEO with a focus on what is most imprtant from a semantic SEO perspective."""},
+            and using it to build a comprehensive set of instructions for an article writer that can be used to inform someone writing a news article about a given topic so that they can best fully cover the semantic SEO as shown in NLTK data from the SERP corpus. 
+             Provide the result in well formatted markdown. The goal of this guide is to help the writer make sure that the content they are creating is as comprehensive to the semantic SEO with a focus on what is most important from a semantic SEO perspective."""},
             {"role": "user", "content": f"Semantic SEO data for the keyword based on the content that ranks on the first page of google for the given keyword query of: {query} and it's related semantic data:  {prompt}"}],
         max_tokens=max_tokens,
         n=1,
@@ -407,14 +407,14 @@ def generate_semantic_improvements_guide(prompt,query, model="gpt-3.5-turbo", ma
 
 @st.cache_data(show_spinner=False)
 def generate_outline(topic, model="gpt-3.5-turbo", max_tokens=1500):
-    prompt = f"Generate an incredibly thorough article outline for the topic: {topic}. Consider all possible angles and be as thorough as possible. Please use Roman Numerals for each section."
+    prompt = f"Generate an incredibly thorough news article outline for the topic: {topic}. Consider all possible angles and be as thorough as possible. Please use Roman Numerals for each section."
     outline = generate_content(prompt, model=model, max_tokens=max_tokens)
     #save_to_file("outline.txt", outline)
     return outline
 
 @st.cache_data(show_spinner=False)
 def improve_outline(outline, semantic_readout, model="gpt-3.5-turbo", max_tokens=1500):
-    prompt = f"Given the following article outline, please improve and extend this outline significantly as much as you can keeping in mind the SEO keywords and data being provided in our semantic seo readout. Do not include a section about semantic SEO itself, you are using the readout to better inform your creation of the outline. Try and include and extend this as much as you can. Please use Roman Numerals for each section. The goal is as thorough, clear, and useful out line as possible exploring the topic in as much depth as possible. Think step by step before answering. Please take into consideration the semantic seo readout provided here: {semantic_readout} which should help inform some of the improvements you can make, though please also consider additional improvements not included in this semantic seo readout.  Outline to improve: {outline}."
+    prompt = f"Given the following article outline, please improve and extend this outline significantly as much as you can keeping in mind the SEO keywords and data being provided in our semantic seo readout. Highlight key takeways and data that will be used in a graph. Do not include a section about semantic SEO itself, you are using the readout to better inform your creation of the outline. Try and include and extend this as much as you can. Please use Roman Numerals for each section. The goal is as thorough, clear, and useful out line as possible exploring the topic in as much depth as possible. Think step by step before answering. Please take into consideration the semantic seo readout provided here: {semantic_readout} which should help inform some of the improvements you can make, though please also consider additional improvements not included in this semantic seo readout.  Outline to improve: {outline}."
     improved_outline = generate_content(prompt, model=model, max_tokens=max_tokens)
     #save_to_file("improved_outline.txt", improved_outline)
     return improved_outline
