@@ -418,6 +418,7 @@ def improve_outline(outline, semantic_readout, model="gpt-3.5-turbo", max_tokens
     improved_outline = generate_content(prompt, model=model, max_tokens=max_tokens)
     #save_to_file("improved_outline.txt", improved_outline)
     return improved_outline
+    
 
 
 
@@ -476,6 +477,7 @@ def concatenate_files(file_names, output_file_name):
 
     #print("Final draft created.\n")
     return final_draft
+    
 
 
 @st.cache_data(show_spinner=False)
@@ -513,6 +515,7 @@ def generate_article(topic, model="gpt-3.5-turbo", max_tokens_outline=2000, max_
     status.text('Finished')
     final_content = '\n'.join(improved_sections)
     #st.markdown(final_content,unsafe_allow_html=True)
+
 
 
 def main():
