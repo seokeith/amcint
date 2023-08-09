@@ -522,10 +522,10 @@ def generate_article(topic, model="gpt-3.5-turbo", max_tokens_outline=2000, max_
 
 
 def main():
-    st.title('Write me a quick campaign.')
+    st.title('Write me a news story.')
     
     st.markdown('''
-    This app uses advanced AI to create briefs and AI versions articles based on the topic you provide. 
+    This app uses advanced AI to create news briefs and news AI versions articles based on the topic you provide. 
 
     It also includes a Semantic SEO understanding. This means it takes into consideration the semantic context and relevance of your topic, based on current search engine results.
 
