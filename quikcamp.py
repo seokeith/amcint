@@ -395,7 +395,7 @@ gpt_response = await client.chat.completions.create(
         stop=None,
         temperature=temperature,
     )
-    response = gpt_response['choices'][0]['message']['content'].strip()
+response = gpt_response['choices'][0]['message']['content'].strip()
     st.header("Semantic Improvements Guide")
     st.markdown(response,unsafe_allow_html=True)
     return str(response)
