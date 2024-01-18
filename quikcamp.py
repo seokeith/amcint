@@ -23,6 +23,9 @@ from apify_client import ApifyClient
 import pandas as pd
 import transformers
 from transformers import GPT2Tokenizer
+import asyncio
+# When you need to call your async function:
+result = asyncio.run(generate_content(prompt, model, max_tokens, temperature))
 
 import json
 #openai.api_key = openai.api_key = os.environ['openai_api_key']
