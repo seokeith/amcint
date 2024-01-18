@@ -314,7 +314,7 @@ gpt_response = await client.chat.completions.create(
         stop=None,
         temperature=temperature,
     )
-    response = gpt_response['choices'][0]['message']['content'].strip()
+response = gpt_response['choices'][0]['message']['content'].strip()
     response = response
     return response.strip().split('\n')
 
