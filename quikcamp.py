@@ -303,7 +303,7 @@ def generate_content(prompt, model="gpt-3.5-turbo", max_tokens=1000, temperature
     #st.write(prompt)
     #for i in range(3):
         #try:
-   from openai import AsyncOpenAI
+from openai import AsyncOpenAI
 
 client = AsyncOpenAI()
 completion = await client.chat.completions.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": "Simulate an exceptionally talented data led news writer. Given the following instructions, think step by step and produce the best possible news article you can."},
