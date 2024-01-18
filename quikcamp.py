@@ -303,10 +303,10 @@ def generate_content(prompt, model="gpt-3.5-turbo", max_tokens=1000, temperature
     #st.write(prompt)
     #for i in range(3):
         #try:
-    gpt_response = openai.ChatCompletion.create(
-        model=model,
-        messages=[
-            {"role": "system", "content": "Simulate an exceptionally talented data led news writer. Given the following instructions, think step by step and produce the best possible news article you can."},
+   from openai import AsyncOpenAI
+
+client = AsyncOpenAI()
+completion = await client.chat.completions.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": "Simulate an exceptionally talented data led news writer. Given the following instructions, think step by step and produce the best possible news article you can."},
             {"role": "user", "content": prompt}],
         max_tokens=max_tokens,
         n=1,
@@ -330,10 +330,10 @@ def generate_content2(prompt, model="gpt-3.5-turbo", max_tokens=1000, temperatur
     #st.write(prompt)
     #for i in range(3):
         #try:
-    gpt_response = openai.ChatCompletion.create(
-        model=model,
-        messages=[
-            {"role": "system", "content": "Simulate an exceptionally talented data led news writer. Given the following instructions, think step by step and produce the best possible output you can. Return the results in Nicely formatted markdown please."},
+from openai import AsyncOpenAI
+
+client = AsyncOpenAI()
+completion = await client.chat.completions.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": "Simulate an exceptionally talented data led news writer. Given the following instructions, think step by step and produce the best possible output you can. Return the results in Nicely formatted markdown please."},
             {"role": "user", "content": prompt}],
         max_tokens=max_tokens,
         n=1,
