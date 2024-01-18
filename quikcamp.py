@@ -396,9 +396,9 @@ gpt_response = await client.chat.completions.create(
         temperature=temperature,
     )
 response = gpt_response['choices'][0]['message']['content'].strip()
-    st.header("Semantic Improvements Guide")
-    st.markdown(response,unsafe_allow_html=True)
-    return str(response)
+st.header("Semantic Improvements Guide")
+st.markdown(response,unsafe_allow_html=True)
+return str(response)
 
         #except:
             #st.write(f"Attempt {i+1} failed, retrying...")
