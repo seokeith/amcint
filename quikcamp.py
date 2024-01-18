@@ -298,14 +298,15 @@ def summarize_nlp(df):
 
 
 @st.cache_data(show_spinner=False)
-def generate_content(prompt, model="gpt-3.5-turbo", max_tokens=1000, temperature=0.4):
+async def generate_content(prompt, model="gpt-3.5-turbo", max_tokens=1000, temperature=0.4):
     prompt = truncate_to_token_length(prompt,2500)
     #st.write(prompt)
     #for i in range(3):
         #try:
-    gpt_response = openai.ChatCompletion.create(
-        model=model,
-        messages=[
+    client = AsyncOpenAI()
+gpt_response = await client.chat.completions.create(
+    model=model,
+    messages=[
             {"role": "system", "content": "Simulate an exceptionally talented data led news writer. Given the following instructions, think step by step and produce the best possible news article you can."},
             {"role": "user", "content": prompt}],
         max_tokens=max_tokens,
@@ -330,9 +331,10 @@ def generate_content2(prompt, model="gpt-3.5-turbo", max_tokens=1000, temperatur
     #st.write(prompt)
     #for i in range(3):
         #try:
-    gpt_response = openai.ChatCompletion.create(
-        model=model,
-        messages=[
+   client = AsyncOpenAI()
+gpt_response = await client.chat.completions.create(
+    model=model,
+    messages=[
             {"role": "system", "content": "Simulate an exceptionally talented data led news writer. Given the following instructions, think step by step and produce the best possible output you can. Return the results in Nicely formatted markdown please."},
             {"role": "user", "content": prompt}],
         max_tokens=max_tokens,
@@ -358,9 +360,10 @@ def generate_content3(prompt, model="gpt-3.5-turbo", max_tokens=1000, temperatur
     #st.write(prompt)
     #for i in range(3):
         #try:
-    gpt_response = openai.ChatCompletion.create(
-        model=model,
-        messages=[
+    client = AsyncOpenAI()
+gpt_response = await client.chat.completions.create(
+    model=model,
+    messages=[
             {"role": "system", "content": "Simulate an exceptionally talented data led news writer. Given the following text, please write a short paragraph providing only the most important facts and takeaways that can be used later when writing a 500 word article."},
             {"role": "user", "content": f"Use the following text to provide the readout: {prompt}"}],
         max_tokens=max_tokens,
@@ -379,9 +382,10 @@ def generate_semantic_improvements_guide(prompt,query, model="gpt-3.5-turbo", ma
     prompt = truncate_to_token_length(prompt,1500)
     #for i in range(3):
         #try:
-    gpt_response = openai.ChatCompletion.create(
-        model=model,
-        messages=[
+    client = AsyncOpenAI()
+gpt_response = await client.chat.completions.create(
+    model=model,
+    messages=[
             {"role": "system", "content": """You are an expert at Semantic SEO. In particular, you are superhuman at taking  a given NLTK report on a given text corpus compiled from the text of the linked pages returned for a google search.
             and using it to build a comprehensive set of instructions for an article writer that can be used to inform someone writing a news article about a given topic so that they can best fully cover the semantic SEO as shown in NLTK data from the SERP corpus. 
              Provide the result in well formatted markdown. The goal of this guide is to help the writer make sure that the content they are creating is as comprehensive to the semantic SEO with a focus on what is most important from a semantic SEO perspective."""},
@@ -480,7 +484,7 @@ def concatenate_files(file_names, output_file_name):
 
 
 @st.cache_data(show_spinner=False)
-def generate_article(topic, model="gpt-3.5-turbo", max_tokens_outline=2000, max_tokens_section=2000, max_tokens_improve_section=4000):
+async def generate_article(topic, model="gpt-3.5-turbo", max_tokens_outline=2000, max_tokens_section=2000, max_tokens_improve_section=4000):
     status = st.empty()
     status.text('Analyzing SERPs...')
     
