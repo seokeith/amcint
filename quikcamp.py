@@ -331,7 +331,7 @@ def generate_content2(prompt, model="gpt-3.5-turbo", max_tokens=1000, temperatur
     #st.write(prompt)
     #for i in range(3):
         #try:
-   client = AsyncOpenAI()
+client = AsyncOpenAI()
 gpt_response = await client.chat.completions.create(
     model=model,
     messages=[
@@ -360,7 +360,7 @@ def generate_content3(prompt, model="gpt-3.5-turbo", max_tokens=1000, temperatur
     #st.write(prompt)
     #for i in range(3):
         #try:
-    client = AsyncOpenAI()
+client = AsyncOpenAI()
 gpt_response = await client.chat.completions.create(
     model=model,
     messages=[
@@ -382,7 +382,7 @@ def generate_semantic_improvements_guide(prompt,query, model="gpt-3.5-turbo", ma
     prompt = truncate_to_token_length(prompt,1500)
     #for i in range(3):
         #try:
-    client = AsyncOpenAI()
+client = AsyncOpenAI()
 gpt_response = await client.chat.completions.create(
     model=model,
     messages=[
