@@ -315,8 +315,8 @@ gpt_response = await client.chat.completions.create(
         temperature=temperature,
     )
 response = gpt_response['choices'][0]['message']['content'].strip()
-    response = response
-    return response.strip().split('\n')
+response = response
+return response.strip().split('\n')
 
         #except:
             #st.write(f"Attempt {i+1} failed, retrying...")
