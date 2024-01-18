@@ -1,4 +1,4 @@
-openai=3.9.18
+openai
 bs4
 nltk
 xlsxwriter
