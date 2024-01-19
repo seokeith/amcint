@@ -311,8 +311,6 @@ gpt_response = await client.chat.completions.create(
             {"role": "system", "content": "Simulate an exceptionally talented data led news writer. Given the following instructions, think step by step and produce the best possible news article you can."},
             {"role": "user", "content": prompt}],
         max_tokens=max_tokens,
-        n=1,
-        stop=None,
         temperature=temperature,
     )
 response = gpt_response['choices'][0]['message']['content'].strip()
