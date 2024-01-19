@@ -327,7 +327,7 @@ return response.strip().split('\n')
     #return None
 
 @st.cache_data(show_spinner=False)
-def generate_content3(prompt, model="gpt-3.5-turbo", max_tokens=1000, temperature=0.4):
+async def generate_content3(prompt, model="gpt-3.5-turbo", max_tokens=1000, temperature=0.4):
     prompt = truncate_to_token_length(prompt,2500)
     #st.write(prompt)
     #for i in range(3):
@@ -356,7 +356,7 @@ return response
 
     
 @st.cache_data(show_spinner=False)
-def generate_content3(prompt, model="gpt-3.5-turbo", max_tokens=1000, temperature=0.4):
+async def generate_content3(prompt, model="gpt-3.5-turbo", max_tokens=1000, temperature=0.4):
     prompt = truncate_to_token_length(prompt,2500)
     #st.write(prompt)
     #for i in range(3):
