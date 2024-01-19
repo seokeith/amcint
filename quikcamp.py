@@ -24,8 +24,6 @@ import pandas as pd
 import transformers
 from transformers import GPT2Tokenizer
 import asyncio
-# When you need to call your async function:
-result = asyncio.run(generate_content(prompt, model, max_tokens, temperature))
 
 import json
 #openai.api_key = openai.api_key = os.environ['openai_api_key']
@@ -301,7 +299,7 @@ def summarize_nlp(df):
 
 
 @st.cache_data(show_spinner=False)
-async def generate_content(prompt, model="gpt-3.5-turbo", max_tokens=1000, temperature=0.4):
+async def generate_content3(prompt, model="gpt-3.5-turbo", max_tokens=1000, temperature=0.4):
     prompt = truncate_to_token_length(prompt,2500)
     #st.write(prompt)
     #for i in range(3):
@@ -329,7 +327,7 @@ return response.strip().split('\n')
     #return None
 
 @st.cache_data(show_spinner=False)
-def generate_content2(prompt, model="gpt-3.5-turbo", max_tokens=1000, temperature=0.4):
+def generate_content3(prompt, model="gpt-3.5-turbo", max_tokens=1000, temperature=0.4):
     prompt = truncate_to_token_length(prompt,2500)
     #st.write(prompt)
     #for i in range(3):
