@@ -55,7 +55,8 @@ def scrape_google(search):
         "saveHtml": False,
         "language": "US:en",
         "extractImages": True,
-        "proxyConfiguration": {"useApifyProxy": True}
+        "proxyConfiguration": {"useApifyProxy": True},
+        "query": ""
     }
 
     try:
