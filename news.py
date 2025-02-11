@@ -33,7 +33,7 @@ nltk.download('trigram_collocations')
 nltk.download('quadgram_collocations')
 
 # Set OpenAI API Key
-openai.api_key = st.secrets.get("OPENAI_API_KEY", "")
+openai_client = openai.OpenAI(api_key=st.secrets.get("OPENAI_API_KEY", ""))
 
 @st.cache_data(show_spinner=False)
 def scrape_google(search):
@@ -88,7 +88,7 @@ def truncate_to_token_length(input_string, max_tokens=1700):
 def generate_content(prompt, model="gpt-4", max_tokens=1000, temperature=0.4):
     prompt = truncate_to_token_length(prompt, 2500)
     
-    response = openai.ChatCompletion.create(
+    response = openai_client.chat.completions.create(
         model=model,
         messages=[
             {"role": "system", "content": "Simulate an exceptionally talented data-led news writer."},
@@ -96,9 +96,9 @@ def generate_content(prompt, model="gpt-4", max_tokens=1000, temperature=0.4):
         ],
         max_tokens=max_tokens,
         temperature=temperature
-    ).choices[0].message["content"].strip()
+    )
     
-    return response
+    return response.choices[0].message.content.strip()
 
 @st.cache_data(show_spinner=False)
 def generate_article(topic):
@@ -110,7 +110,7 @@ def main():
     st.title('AI News Generator')
     topic = st.text_input("Enter topic:", "Add a keyword here")
     if st.button('Generate Content'):
-        if openai.api_key:
+        if st.secrets.get("OPENAI_API_KEY", ""):
             with st.spinner("Generating content..."):
                 final_draft = generate_article(topic)
                 st.markdown(final_draft)
