@@ -17,7 +17,7 @@ import time
 import openai
 import re
 import streamlit as st
-from apify_client import ApifyClient, ApifyApiError
+from apify_client import ApifyClient
 from transformers import GPT2Tokenizer
 
 import json
@@ -45,31 +45,25 @@ def scrape_google(search):
         return pd.DataFrame()
 
     client = ApifyClient(APIFY_API_KEY)
-
     run_input = {
         "csvFriendlyOutput": False,
         "includeUnfilteredResults": False,
-        "maxPagesPerQuery": 1,  # ✅ Only search the first page
+        "maxPagesPerQuery": 1,
         "mobileResults": False,
-        "queries": [search],  # ✅ Accept user input for search query
-        "resultsPerPage": 10,  # ✅ Limit to 10 results per page
+        "queries": [search],
+        "resultsPerPage": 10,
         "saveHtml": False,
-        "query": search,  # ✅ Ensures query is set correctly
-        "language": "US:en",  # ✅ English results from the US
-        "extractImages": True,  # ✅ Extract images if needed
-        "proxyConfiguration": {
-            "useApifyProxy": True  # ✅ Use Apify proxy (prevents bans)
-        }
+        "language": "US:en",
+        "extractImages": True,
+        "proxyConfiguration": {"useApifyProxy": True}
     }
 
     try:
         run = client.actor(ACTOR_NAME).call(run_input=run_input)
         results = [item for item in client.dataset(run["defaultDatasetId"]).iterate_items()]
         urls = [result['url'] for item in results for result in item.get('organicResults', [])]
-
         return pd.DataFrame(urls, columns=['url'])
-
-    except ApifyApiError as e:
+    except Exception as e:
         st.error(f"Apify API error: {e}")
         return pd.DataFrame()
 
@@ -91,15 +85,6 @@ def truncate_to_token_length(input_string, max_tokens=1700):
     return tokenizer.convert_tokens_to_string(truncated_tokens)
 
 @st.cache_data(show_spinner=False)
-def analyze_serps(query):
-    df = scrape_google(query)
-    for index, row in df.iterrows():
-        url = row['url']
-        article_text = scrape_article(url)
-        df.at[index, 'Article Text'] = article_text
-    return df
-
-@st.cache_data(show_spinner=False)
 def generate_content(prompt, model="gpt-4", max_tokens=1000, temperature=0.4):
     prompt = truncate_to_token_length(prompt, 2500)
     
@@ -116,16 +101,8 @@ def generate_content(prompt, model="gpt-4", max_tokens=1000, temperature=0.4):
 
 @st.cache_data(show_spinner=False)
 def generate_article(topic):
-    st.text('Analyzing SERPs...')
-    results = analyze_serps(topic)
-    article_texts = " ".join(results['Article Text'].dropna())
-    
-    if not article_texts:
-        st.error("No valid articles found for analysis.")
-        return ""
-    
     st.text('Generating news article...')
-    final_article = generate_content(article_texts)
+    final_article = generate_content(topic)
     return final_article
 
 def main():
