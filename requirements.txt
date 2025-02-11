@@ -8,3 +8,4 @@ transformers
 newspaper3k
 lxml
 trafilatura
+apify-client
