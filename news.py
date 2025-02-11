@@ -17,7 +17,7 @@ import time
 import openai
 import re
 import streamlit as st
-from apify_client import ApifyClient
+from apify_client import ApifyClient, ApifyApiError
 from transformers import GPT2Tokenizer
 
 import json
@@ -37,30 +37,41 @@ openai.api_key = st.secrets.get("OPENAI_API_KEY", "")
 
 @st.cache_data(show_spinner=False)
 def scrape_google(search):
-    APIFY_API_URL = 'https://api.apify.com/v2'
-    ACTOR_NAME = 'lhotanok/google-news-scraper'
     APIFY_API_KEY = st.secrets.get("APIFY_API_KEY", "")
-    
+    ACTOR_NAME = "lhotanok/google-news-scraper"
+
     if not APIFY_API_KEY:
-        st.error("Apify API Key is missing!")
+        st.error("Apify API Key is missing! Please add it to Streamlit Secrets.")
         return pd.DataFrame()
-    
+
     client = ApifyClient(APIFY_API_KEY)
+
     run_input = {
         "csvFriendlyOutput": False,
         "includeUnfilteredResults": False,
-        "maxPagesPerQuery": 1,
+        "maxPagesPerQuery": 1,  # ✅ Only search the first page
         "mobileResults": False,
-        "queries": [search],
-        "resultsPerPage": 10,
-        "saveHtml": False
+        "queries": [search],  # ✅ Accept user input for search query
+        "resultsPerPage": 10,  # ✅ Limit to 10 results per page
+        "saveHtml": False,
+        "query": search,  # ✅ Ensures query is set correctly
+        "language": "US:en",  # ✅ English results from the US
+        "extractImages": True,  # ✅ Extract images if needed
+        "proxyConfiguration": {
+            "useApifyProxy": True  # ✅ Use Apify proxy (prevents bans)
+        }
     }
-    
-    run = client.actor(ACTOR_NAME).call(run_input=run_input)
-    results = [item for item in client.dataset(run["defaultDatasetId"]).iterate_items()]
-    
-    urls = [result['url'] for item in results for result in item.get('organicResults', [])]
-    return pd.DataFrame(urls, columns=['url'])
+
+    try:
+        run = client.actor(ACTOR_NAME).call(run_input=run_input)
+        results = [item for item in client.dataset(run["defaultDatasetId"]).iterate_items()]
+        urls = [result['url'] for item in results for result in item.get('organicResults', [])]
+
+        return pd.DataFrame(urls, columns=['url'])
+
+    except ApifyApiError as e:
+        st.error(f"Apify API error: {e}")
+        return pd.DataFrame()
 
 @st.cache_data(show_spinner=False)
 def scrape_article(url):
