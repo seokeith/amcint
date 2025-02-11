@@ -102,8 +102,21 @@ def generate_content(prompt, model="gpt-4", max_tokens=1000, temperature=0.4):
 
 @st.cache_data(show_spinner=False)
 def generate_article(topic):
+    st.text('Searching for news articles...')
+    df = scrape_google(topic)
+    
+    if df.empty:
+        st.error("No news articles found for this topic.")
+        return ""
+    
+    article_texts = " ".join([scrape_article(url) for url in df['url'] if url])
+    
+    if not article_texts.strip():
+        st.error("Failed to extract articles from the search results.")
+        return ""
+    
     st.text('Generating news article...')
-    final_article = generate_content(topic)
+    final_article = generate_content(article_texts)
     return final_article
 
 def main():
